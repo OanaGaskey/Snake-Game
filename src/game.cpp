@@ -24,7 +24,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
-    controller.HandleInput(running, snake);
+    controller.HandleInput(running, snake1, snake2);
     Update();
     renderer.Render(snake1, snake2, food);
 
@@ -71,7 +71,8 @@ void Game::Update() {
   if (!snake1.alive ||
       !snake2.alive   ) return;
 
-  snake.Update();
+  snake1.Update();
+  snake2.Update();
 
   int new_x_1 = static_cast<int>(snake1.head_x);
   int new_y_1 = static_cast<int>(snake1.head_y);
