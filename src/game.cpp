@@ -3,7 +3,8 @@
 #include "SDL.h"
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
-    : snake(grid_width, grid_height),
+    : snake1(grid_width, grid_height),
+	  snake2(grid_width, grid_height),
       engine(dev()),
       random_w(0, static_cast<int>(grid_width)),
       random_h(0, static_cast<int>(grid_height)) {
@@ -25,7 +26,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, snake);
     Update();
-    renderer.Render(snake, food);
+    renderer.Render(snake1, snake2, food);
 
     frame_end = SDL_GetTicks();
 
@@ -57,7 +58,8 @@ void Game::PlaceFood() {
     y = random_h(engine);
     // Check that the location is not occupied by a snake item before placing
     // food.
-    if (!snake.SnakeCell(x, y)) {
+    if (!snake1.SnakeCell(x, y) &&
+        !snake2.SnakeCell(x, y)    ) {
       food.x = x;
       food.y = y;
       return;
@@ -66,22 +68,34 @@ void Game::PlaceFood() {
 }
 
 void Game::Update() {
-  if (!snake.alive) return;
+  if (!snake1.alive ||
+      !snake2.alive   ) return;
 
   snake.Update();
 
-  int new_x = static_cast<int>(snake.head_x);
-  int new_y = static_cast<int>(snake.head_y);
+  int new_x_1 = static_cast<int>(snake1.head_x);
+  int new_y_1 = static_cast<int>(snake1.head_y);
+  
+  int new_x_2 = static_cast<int>(snake2.head_x);
+  int new_y_2 = static_cast<int>(snake2.head_y);
 
   // Check if there's food over here
-  if (food.x == new_x && food.y == new_y) {
+  if (food.x == new_x_1 && food.y == new_y_1) {
     score++;
     PlaceFood();
     // Grow snake and increase speed.
-    snake.GrowBody();
-    snake.speed += 0.02;
+    snake1.GrowBody();
+    snake1.speed += 0.02;
+  }
+  // Check if there's food over here
+  if (food.x == new_x_2 && food.y == new_y_2) {
+    score++;
+    PlaceFood();
+    // Grow snake and increase speed.
+    snake2.GrowBody();
+    snake2.speed += 0.02;
   }
 }
 
 int Game::GetScore() const { return score; }
-int Game::GetSize() const { return snake.size; }
+int Game::GetSize() const { return snake1.size; }
