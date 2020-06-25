@@ -71,9 +71,12 @@ void Game::Update() {
   if (!snake1.alive ||
       !snake2.alive   ) return;
 
+//   std::thread t1(&Snake::Update,&snake1);
+//   std::thread t2(&Snake::Update,&snake2);
+//   t1.join();
+//   t2.join();
   snake1.Update();
   snake2.Update();
-
   int new_x_1 = static_cast<int>(snake1.head_x);
   int new_y_1 = static_cast<int>(snake1.head_y);
   
