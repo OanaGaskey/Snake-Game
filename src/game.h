@@ -2,7 +2,8 @@
 #define GAME_H
 
 #include <random>
-#include <thread>
+// #include <thread>
+#include <memory>
 #include "SDL.h"
 #include "controller.h"
 #include "renderer.h"
@@ -17,8 +18,11 @@ class Game {
   int GetSize() const;
 
  private:
-  Snake snake1;
-  Snake snake2;
+  std::shared_ptr<Snake> snake1;
+  std::shared_ptr<Snake> snake2;
+
+//   Snake snake1;
+//   Snake snake2;
   SDL_Point food;
 
   std::random_device dev;

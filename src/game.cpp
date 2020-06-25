@@ -3,11 +3,12 @@
 #include "SDL.h"
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
-    : snake1(1, grid_width, grid_height, 0, 0),
-	  snake2(2, grid_width, grid_height, (grid_width-1), (grid_height-1)),
-      engine(dev()),
+    : engine(dev()),
       random_w(0, static_cast<int>(grid_width)),
       random_h(0, static_cast<int>(grid_height)) {
+        
+  snake1 = std::make_shared<Snake>(1, grid_width, grid_height, 0, 0);
+  snake2 = std::make_shared<Snake>(2, grid_width, grid_height, (grid_width-1), (grid_height-1));
   PlaceFood();
 }
 
@@ -58,8 +59,8 @@ void Game::PlaceFood() {
     y = random_h(engine);
     // Check that the location is not occupied by a snake item before placing
     // food.
-    if (!snake1.SnakeCell(x, y) &&
-        !snake2.SnakeCell(x, y)    ) {
+    if (!snake1->SnakeCell(x, y) &&
+        !snake2->SnakeCell(x, y)    ) {
       food.x = x;
       food.y = y;
       return;
@@ -68,38 +69,38 @@ void Game::PlaceFood() {
 }
 
 void Game::Update() {
-  if (!snake1.alive ||
-      !snake2.alive   ) return;
+  if (!snake1->alive ||
+      !snake2->alive   ) return;
 
 //   std::thread t1(&Snake::Update,&snake1);
 //   std::thread t2(&Snake::Update,&snake2);
 //   t1.join();
 //   t2.join();
-  snake1.Update();
-  snake2.Update();
-  int new_x_1 = static_cast<int>(snake1.head_x);
-  int new_y_1 = static_cast<int>(snake1.head_y);
+  snake1->Update();
+  snake2->Update();
+  int new_x_1 = static_cast<int>(snake1->head_x);
+  int new_y_1 = static_cast<int>(snake1->head_y);
   
-  int new_x_2 = static_cast<int>(snake2.head_x);
-  int new_y_2 = static_cast<int>(snake2.head_y);
+  int new_x_2 = static_cast<int>(snake2->head_x);
+  int new_y_2 = static_cast<int>(snake2->head_y);
 
   // Check if there's food over here
   if (food.x == new_x_1 && food.y == new_y_1) {
-    snake1.score++;
+    snake1->score++;
     PlaceFood();
     // Grow snake and increase speed.
-    snake1.GrowBody();
-    snake1.speed += 0.02;
+    snake1->GrowBody();
+    snake1->speed += 0.02;
   }
   // Check if there's food over here
   if (food.x == new_x_2 && food.y == new_y_2) {
-    snake2.score++;
+    snake2->score++;
     PlaceFood();
     // Grow snake and increase speed.
-    snake2.GrowBody();
-    snake2.speed += 0.02;
+    snake2->GrowBody();
+    snake2->speed += 0.02;
   }
 }
 
-int Game::GetScore() const { return std::max(snake1.score,snake2.score); }
-int Game::GetSize() const { return std::max(snake1.size,snake2.size); }
+int Game::GetScore() const { return std::max(snake1->score,snake2->score); }
+int Game::GetSize() const { return std::max(snake1->size,snake2->size); }
