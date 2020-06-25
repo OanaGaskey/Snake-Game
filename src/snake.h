@@ -8,8 +8,9 @@ class Snake {
  public:
   enum class Direction { kUp, kDown, kLeft, kRight };
 
-  Snake(int grid_width, int grid_height, int x, int y)
-      : grid_width(grid_width),
+  Snake(int id, int grid_width, int grid_height, int x, int y)
+      : id(id),
+  		grid_width(grid_width),
         grid_height(grid_height),
         head_x(x),
         head_y(y) {}
@@ -21,6 +22,7 @@ class Snake {
 
   Direction direction = Direction::kUp;
 
+  int id;
   float speed{0.1f};
   int size{1};
   int score{0};
