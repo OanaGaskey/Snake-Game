@@ -102,5 +102,9 @@ void Game::Update() {
   }
 }
 
+int Game::GetWinner() const { 
+  if (snake1->score > snake2->score) return snake1->id;
+  else return snake2->id;
+};
 int Game::GetScore() const { return std::max(snake1->score,snake2->score); }
 int Game::GetSize() const { return std::max(snake1->size,snake2->size); }
