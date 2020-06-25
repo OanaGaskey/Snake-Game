@@ -2,6 +2,7 @@
 #define SNAKE_H
 
 #include <vector>
+#include <memory>
 #include "SDL.h"
 
 class Snake {
@@ -15,7 +16,7 @@ class Snake {
         head_x(x),
         head_y(y) {}
 
-  void Update();
+  void Update(std::shared_ptr<Snake> competitor);
 
   void GrowBody();
   bool SnakeCell(int x, int y);
@@ -33,7 +34,7 @@ class Snake {
 
  private:
   void UpdateHead();
-  void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);
+  void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell, std::shared_ptr<Snake> competitor);
 
   bool growing{false};
   int grid_width;

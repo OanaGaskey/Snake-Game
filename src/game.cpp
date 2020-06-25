@@ -76,8 +76,8 @@ void Game::Update() {
 //   std::thread t2(&Snake::Update,&snake2);
 //   t1.join();
 //   t2.join();
-  snake1->Update();
-  snake2->Update();
+  snake1->Update(snake2);
+  snake2->Update(snake1);
   int new_x_1 = static_cast<int>(snake1->head_x);
   int new_y_1 = static_cast<int>(snake1->head_y);
   
