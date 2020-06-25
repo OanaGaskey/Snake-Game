@@ -1,4 +1,4 @@
-#Capstone Snake Game
+# Capstone Snake Game
 
 ## Dependencies for Running Locally
 * cmake >= 3.7
