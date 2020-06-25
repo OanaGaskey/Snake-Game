@@ -22,9 +22,18 @@ This project is implemented in C++ and is based on the starter code provided by 
 
 <img src="snake_game.gif"/>
 
-As an addition to the classic snake game that is played by one player challenging himself, I implemented the snake game that can be played by two competitors. The player's snake that doesn't die at the end of the game is the winner, regardless of the length of the snake.
+As an addition to the classic snake game that is played by one player challenging himself, I implemented the snake game that can be played by two competitors. 
 
 The first player uses the arrow keys to navigate the snake on the grid. The second player uses `w` for going up, `s` for down, `a` for left, `d` for right.
+
+The score is displayed while playing.
+
+![play](play.JPG)
+
+The player's snake that doesn't die at the end of the game is the winner, regardless of the length of the snake.
+
+![play](winner.JPG)
+
 
 The file and class structure is very similar to the one provided in the starter code. New functionnality was added to allow the second player.
 
@@ -32,6 +41,8 @@ The file and class structure is very similar to the one provided in the starter 
 
 * The submission must compile and run
 The project can be build using `cmake ..` and `make` from the `build` directory. To launch the application use `./Snake Game`.
+
+![play](compiles.JPG)
 
 * The project demonstrates an understanding of C++ functions and control structures.
 
